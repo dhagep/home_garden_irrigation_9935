@@ -140,11 +140,11 @@ def main():
         ctrl_valve_control(logging,GPIO__20__LED_CTRL, delay_sec)        
 
     email_text="""
-    Home backyard ran successfully at : {0}
-    Water was on for                  : {1} sec ( or {2} minutes)
-    Environment mode                  : {3}
-    Mode                              : {4}
-    Version                           : {5}
+    Home backyard irrigation ran successfully at : {0}
+    Water was on for                             : {1} sec ( or {2:.2f} minutes)
+    Environment mode                             : {3}
+    Mode                                         : {4}
+    Version                                      : {5}
     """.format(currenttime_fmt, delay_sec,delay_sec/60, env, script_mode, __version__)
     with open ("../email/encrypted_pass.txt", "rb") as fp_r:
         for line in fp_r:
@@ -156,7 +156,7 @@ def main():
     server=smtplib.SMTP('smtp.gmail.com',587)
     server.starttls()
     server.login("homeirrigation9935@gmail.com", plain_text_encrypted_password)
-    msg=email_text
+    msg='Subject: {0}\n\n{1}'.format("Home Irrigation  9935 automation result", email_text)
     server.sendmail("homeirrigation9935@gmail.com","pratikpdhage@gmail.com", msg)
     server.quit()
 
