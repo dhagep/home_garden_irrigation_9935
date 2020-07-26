@@ -146,8 +146,8 @@ def main():
     Water was on for                  : {5} sec
     """.format(__version__, currentdate, env,mode)
     with open ("../email/encrypted_pass.txt", "rb") as fp_r:
-    for line in fp_r:
-        encrypted_pwd = line
+        for line in fp_r:
+            encrypted_pwd = line
     key = b'lHwEPPG06WDsWCGC1HjgqtQzOuvvn2c5K1iUok7qiKs='
     cipher_suite = Fernet(key)
     uncipher_text = (cipher_suite.decrypt(encrypted_pwd))
