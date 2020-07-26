@@ -138,27 +138,27 @@ def main():
         delay_sec = minutes*60
         ctrl_valve_control(logging,GPIO__21__VALVE_CTRL, delay_sec)
         ctrl_valve_control(logging,GPIO__20__LED_CTRL, delay_sec)        
-
-    email_text="""
-    Home backyard irrigation ran successfully at : {0}
-    Water was on for                             : {1} sec ( or {2:.2f} minutes)
-    Environment mode                             : {3}
-    Mode                                         : {4}
-    Version                                      : {5}
-    """.format(currenttime_fmt, delay_sec,delay_sec/60, env, script_mode, __version__)
-    with open ("../email/encrypted_pass.txt", "rb") as fp_r:
-        for line in fp_r:
-            encrypted_pwd = line
-    key = b'lHwEPPG06WDsWCGC1HjgqtQzOuvvn2c5K1iUok7qiKs='
-    cipher_suite = Fernet(key)
-    uncipher_text = (cipher_suite.decrypt(encrypted_pwd))
-    plain_text_encrypted_password = bytes(uncipher_text).decode("utf-8")                    
-    server=smtplib.SMTP('smtp.gmail.com',587)
-    server.starttls()
-    server.login("homeirrigation9935@gmail.com", plain_text_encrypted_password)
-    msg='Subject: {0}\n\n{1}'.format("Home Irrigation  9935 automation result", email_text)
-    server.sendmail("homeirrigation9935@gmail.com",["pratikpdhage@gmail.com","priyanka.uict@gmail.com","saurabhwd@gmail.com"], msg)
-    server.quit()
+    if env == "PRODUCTION":
+        email_text="""
+        Home backyard irrigation ran successfully at : {0}
+        Water was on for                             : {1} sec ( or {2:.2f} minutes)
+        Environment mode                             : {3}
+        Mode                                         : {4}
+        Version                                      : {5}
+        """.format(currenttime_fmt, delay_sec,delay_sec/60, env, script_mode, __version__)
+        with open ("../email/encrypted_pass.txt", "rb") as fp_r:
+            for line in fp_r:
+                encrypted_pwd = line
+        key = b'lHwEPPG06WDsWCGC1HjgqtQzOuvvn2c5K1iUok7qiKs='
+        cipher_suite = Fernet(key)
+        uncipher_text = (cipher_suite.decrypt(encrypted_pwd))
+        plain_text_encrypted_password = bytes(uncipher_text).decode("utf-8")                    
+        server=smtplib.SMTP('smtp.gmail.com',587)
+        server.starttls()
+        server.login("homeirrigation9935@gmail.com", plain_text_encrypted_password)
+        msg='Subject: {0}\n\n{1}'.format("Home Irrigation  9935 automation result", email_text)
+        server.sendmail("homeirrigation9935@gmail.com",["pratikpdhage@gmail.com","priyanka.uict@gmail.com","saurabhwd@gmail.com"], msg)
+        server.quit()
 
 if __name__ == '__main__':
     main()
