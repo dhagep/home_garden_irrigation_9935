@@ -157,7 +157,7 @@ def main():
     server.starttls()
     server.login("homeirrigation9935@gmail.com", plain_text_encrypted_password)
     msg='Subject: {0}\n\n{1}'.format("Home Irrigation  9935 automation result", email_text)
-    server.sendmail("homeirrigation9935@gmail.com","pratikpdhage@gmail.com;priyanka.uict@gmail.com;saurabhwd@gmail.com", msg)
+    server.sendmail("homeirrigation9935@gmail.com",["pratikpdhage@gmail.com","priyanka.uict@gmail.com","saurabhwd@gmail.com"], msg)
     server.quit()
 
 if __name__ == '__main__':
