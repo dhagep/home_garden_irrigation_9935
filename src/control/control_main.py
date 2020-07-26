@@ -131,13 +131,13 @@ def main():
     if env == "TEST":
         delay_sec = 10;
         ctrl_valve_control(logging,GPIO__21__VALVE_CTRL[0], delay_sec,GPIO__21__VALVE_CTRL[1] )
-        ctrl_valve_control(logging,GPIO__20__LED_CTRL[0], delay_sec, GPIO__20__LED_CTRL[1])
+        ctrl_valve_control(logging,GPIO__20__LED_VALVE[0], delay_sec, GPIO__20__LED_VALVE[1])
 
     else:
         minutes = 5
         delay_sec = minutes*60
         ctrl_valve_control(logging,GPIO__21__VALVE_CTRL[0], delay_sec,GPIO__21__VALVE_CTRL[1])
-        ctrl_valve_control(logging,GPIO__20__LED_CTRL[0], delay_sec,GPIO__20__LED_CTRL[1])        
+        ctrl_valve_control(logging,GPIO__20__LED_VALVE[0], delay_sec,GPIO__20__LED_VALVE[1])        
     if env == "PRODUCTION":
         email_text="""
         Home backyard irrigation ran successfully at : {0}
