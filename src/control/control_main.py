@@ -49,14 +49,14 @@ from cryptography.fernet import Fernet
 """
 Rasberry pi GPIO name mapping
 """
-GPIO__21__VALVE_CTRL = 21
-GPIO__20__LED_CTRL   = 20
+GPIO__21__VALVE_CTRL = [21, "VALVE_CTRL"]
+GPIO__20__LED_VALVE   = [20, "LED_VALVE"]
 """
 Solenoid valve control
 param@ GPIO pin setup, time delay
 """
-def ctrl_valve_control(logging, pin, delay_sec):
-    logging.info("Setting GPIO Pin {0} ON  for {1} sec".format(pin, delay_sec))
+def ctrl_valve_control(logging, pin, delay_sec, pin_name):
+    logging.info("Setting GPIO Pin {0} ON  for {1} sec".format(pin_name, delay_sec))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin,GPIO.HIGH)
     time.sleep(delay_sec)
@@ -130,14 +130,14 @@ def main():
     GPIO.setwarnings(False)
     if env == "TEST":
         delay_sec = 10;
-        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL, delay_sec)
-        ctrl_valve_control(logging,GPIO__20__LED_CTRL, delay_sec)
+        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL[0], delay_sec,GPIO__21__VALVE_CTRL[1] )
+        ctrl_valve_control(logging,GPIO__20__LED_CTRL[0], delay_sec, GPIO__20__LED_CTRL[1])
 
     else:
         minutes = 5
         delay_sec = minutes*60
-        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL, delay_sec)
-        ctrl_valve_control(logging,GPIO__20__LED_CTRL, delay_sec)        
+        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL[0], delay_sec,GPIO__21__VALVE_CTRL[1])
+        ctrl_valve_control(logging,GPIO__20__LED_CTRL[0], delay_sec,GPIO__20__LED_CTRL[1])        
     if env == "PRODUCTION":
         email_text="""
         Home backyard irrigation ran successfully at : {0}
