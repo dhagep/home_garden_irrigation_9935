@@ -71,6 +71,7 @@ def main():
     now = datetime.now()
     currentdate = now.strftime("%Y-%m-%d")
     currenttime = now.strftime("%Y%m%d%H%M%S")
+    currenttime_fmt = now.strftime("%Y-%m-%d %H:%M:%S")
     script_name=os.path.basename(__file__)
     """
     Put logs on output and also in file
@@ -128,22 +129,23 @@ def main():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     if env == "TEST":
-        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL, 10)
-        ctrl_valve_control(logging,GPIO__20__LED_CTRL, 10)
+        delay_sec = 10;
+        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL, delay_sec)
+        ctrl_valve_control(logging,GPIO__20__LED_CTRL, delay_sec)
 
     else:
         minutes = 5
-        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL, minutes*60)
-        ctrl_valve_control(logging,GPIO__20__LED_CTRL, minutes*60)        
+        delay_sec = minutes*60
+        ctrl_valve_control(logging,GPIO__21__VALVE_CTRL, delay_sec)
+        ctrl_valve_control(logging,GPIO__20__LED_CTRL, delay_sec)        
 
     email_text="""
-    Script Version                    : {0}
-    Current date                      : {1}
-    Environment mode                  : {2}
-    Mode                              : {3}
-    Home backyard ran successfully at : {4}
-    Water was on for                  : {5} sec
-    """.format(__version__, currentdate, env,mode)
+    Home backyard ran successfully at : {0}
+    Water was on for                  : {1} sec ( or {2} minutes)
+    Environment mode                  : {3}
+    Mode                              : {4}
+    Version                           : {5}
+    """.format(currenttime_fmt, delay_sec,delay_sec/60, env, script_mode, __version__)
     with open ("../email/encrypted_pass.txt", "rb") as fp_r:
         for line in fp_r:
             encrypted_pwd = line
@@ -154,7 +156,7 @@ def main():
     server=smtplib.SMTP('smtp.gmail.com',587)
     server.starttls()
     server.login("homeirrigation9935@gmail.com", plain_text_encrypted_password)
-    msg="hello"
+    msg=email_text
     server.sendmail("homeirrigation9935@gmail.com","pratikpdhage@gmail.com", msg)
     server.quit()
 
