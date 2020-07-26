@@ -29,9 +29,8 @@ __maintainer__ = "developer"
 __status__ = "Production"
 __version__ = "0.0.1"
 
-
-import RPi.GPIO as GPIO
 import time
+import RPi.GPIO as GPIO
 import sys
 import os
 import getopt
@@ -44,7 +43,7 @@ import logging
 import shutil
 import smtplib
 #from email.mime.text import MIMEText
-from datetime import datetime, date, time, timedelta
+from datetime import datetime, date, timedelta
 from cryptography.fernet import Fernet
 
 """
