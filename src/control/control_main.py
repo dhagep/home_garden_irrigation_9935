@@ -27,7 +27,7 @@ __email__ =  "pdhage@asu.edu"
 __license__ = "GPLv3"
 __maintainer__ = "developer"
 __status__ = "Production"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 import time
 import RPi.GPIO as GPIO
@@ -35,14 +35,10 @@ import sys
 import os
 import getopt
 import sys
-#import inspect
-#import glob
-#import subprocess
-#import re
+
 import logging
 import shutil
 import smtplib
-#from email.mime.text import MIMEText
 from datetime import datetime, date, timedelta
 from cryptography.fernet import Fernet
 
@@ -58,9 +54,9 @@ param@ GPIO pin setup, time delay
 def ctrl_valve_control(logging, pin, delay_sec, pin_name):
     logging.info("Setting GPIO Pin {0} ON  for {1} sec".format(pin_name, delay_sec))
     GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin,GPIO.HIGH)
+    GPIO.output(pin,GPIO.LOW)
     time.sleep(delay_sec)
-    GPIO.output(pin,GPIO.LOW)        
+    GPIO.output(pin,GPIO.HIGH)        
     logging.info("Setting GPIO Pin {0} OFF".format(pin))    
 """
 Main function
@@ -131,13 +127,13 @@ def main():
     if env == "TEST":
         delay_sec = 10;
         ctrl_valve_control(logging,GPIO__21__VALVE_CTRL[0], delay_sec,GPIO__21__VALVE_CTRL[1] )
-        ctrl_valve_control(logging,GPIO__20__LED_VALVE[0], delay_sec, GPIO__20__LED_VALVE[1])
+        #ctrl_valve_control(logging,GPIO__20__LED_VALVE[0], delay_sec, GPIO__20__LED_VALVE[1])
 
     else:
-        minutes = 5
+        minutes = 15
         delay_sec = minutes*60
         ctrl_valve_control(logging,GPIO__21__VALVE_CTRL[0], delay_sec,GPIO__21__VALVE_CTRL[1])
-        ctrl_valve_control(logging,GPIO__20__LED_VALVE[0], delay_sec,GPIO__20__LED_VALVE[1])        
+        #ctrl_valve_control(logging,GPIO__20__LED_VALVE[0], delay_sec,GPIO__20__LED_VALVE[1])        
     if env == "PRODUCTION":
         email_text="""
         Home backyard irrigation ran successfully at : {0}
